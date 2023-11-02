@@ -27,4 +27,5 @@ O projeto está em andamento e consiste em um sistema de delivery dividido em du
 - ``Zod``
 
 ## 🎯 Vídeo do projeto 
-https://github.com/BiancaHoffer/web-delivery-/assets/99914904/95fcd6e6-1b57-4e3a-aae9-c84fce8d8b24
+
+https://github.com/BiancaHoffer/web-delivery-/assets/99914904/0af2aa43-8669-4631-9f8a-aa7e63a714f2
