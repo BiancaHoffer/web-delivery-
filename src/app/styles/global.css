@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+tr>th {
+  text-align: start;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+  background: white;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #FB923C;
+}
+
+
+input:focus,
+select:focus {
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+.input-file {
+  display: none;
+}
+
+#checkbox-select {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+#radio-select {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}

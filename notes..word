@@ -1,0 +1,25 @@
+Firebase
+
+- Ler dados em tempo real, de determinado documento
+onSnapshot(doc(db, "category", `${data.category}`), doc => {
+  console.log(doc.data())
+})
+
+
+- Incrementar objeto dentro de um array que está dentro do documento escolhido. 
+await setDoc(doc(db, `/category/${data.category}`), {
+  products: arrayUnion(
+    ...[data] <- lembrar de adicionar o spreed operator
+  )
+}, {
+  merge: true <- comando para realizar incremento
+})
+
+
+- ZOD image:
+image: z
+    .instanceof(FileList)
+    .transform(list => list.item(0))
+    .refine(file => file !== null, "Insira uma imagem do produto")
+    .refine(file => file !== null && file!.size <= 5 * 1024 * 1024, "O arquivo precisa ter no máximo 50MB")
+
