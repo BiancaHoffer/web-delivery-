@@ -1,26 +1,30 @@
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px" }}>
-        <div style={{ border: "2px solid #FB923C", padding: "12px", borderRadius: "20px", borderColor: "" }}>
-          <h2 style={{ marginBottom: "12px", fontWeight: "bolder" }}>Dashboard</h2>
-          <img style={{ border: "2px", borderRadius: "8px" }} src="https://github.com/BiancaHoffer/app-delivery/assets/99914904/f069323e-f5d3-4788-a7e5-5d3e19593822" />
-        </div>
+<h1>WEBhttps://github.com/BiancaHoffer/web-delivery-/tree/main-DELIVERY</h1>
 
-        <div style={{ border: "2px solid #FB923C", padding: "12px", borderRadius: "20px", borderColor: "" }}>
-          <h2 style={{ marginBottom: "12px", fontWeight: "bolder" }}>Pedidos</h2>
-          <img style={{ border: "2px", borderRadius: "8px" }} src="https://github.com/BiancaHoffer/web-delivery-/assets/99914904/93c1b247-7dd0-4e06-8025-5337106dad57" />
-        </div>
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
-        <div style={{ border: "2px solid #FB923C", padding: "12px", borderRadius: "20px", borderColor: "" }}>
-          <h2 style={{ marginBottom: "12px", fontWeight: "bolder" }}>Clientes</h2>
-          <img style={{ border: "2px", borderRadius: "8px" }} src="https://github.com/BiancaHoffer/web-delivery-/assets/99914904/e75e6eee-df69-4065-ba20-02d74c4de6ec" />
-        </div>
+# Resumo do projeto
+O projeto está em andamento e consiste em um sistema de delivery dividido em duas partes. A 'Web-delivery' representa metade desse projeto e funciona como uma dashboard dedicada ao gerenciamento de restaurantes e comércios que realizam delivery. 
 
-        <div style={{ border: "2px solid #FB923C", padding: "12px", borderRadius: "20px", borderColor: "" }}>
-          <h2 style={{ marginBottom: "12px", fontWeight: "bolder" }}>Produtos</h2>
-          <img style={{ border: "2px", borderRadius: "8px" }} src="https://github.com/BiancaHoffer/web-delivery-/assets/99914904/ed229697-aab5-456e-8113-bcc728662f82" />
-        </div>
+## 🔨 Funcionalidades do projeto
+- `Funcionalidade 1` `Cadastrar produtos`: Para dasdastrar um produto é necessário informar nome do produto, categoria, imagem, preço e descrição (opcional). 
+- `Funcionalidade 2` `Cadastro de categorias`: O sistema precisa agrupar os produtos em categorias, as categorias poderão ser criadas, editadas e excluidas pelo administrador. Para o cadastro de uma categoria no sistema, é preciso informar obrigatoriamente seu nome.
+- `Funcionalidade 3` `Litagem de produtos`: Todos os produtos serão listados. Será inserido uma paginação e motor de busca pelo nome. Cada pedido pode ser editado e excluido.
+- `Funcionalidade 4` `Listagem de categorias`: Todas as categorias serão listadas. Será inserido uma paginação e motor de busca pelo nome. Cada categoria pode ser editado e excluido.
+- `Funcionalidade 5` `Listagem de clientes`: Os clientes serão listados, mas somente editados pelo usuário. Na listagem podemos conferir o e-mail, telefone, endereço atual e nome completo, e pedidos que o cliente já realizou. Possuirá paginação e motos de busca.
+-  `Funcionalidade 6` `Listagem de pedidos`: Todas os pedidos serão listados. Cada pedido possuirá um status que pode ser alterado conforme a necessidade do restaurante. A listagem possuirá data, hora, status, telefone do cliente e endereço do pedido. A listagem poderá ser editada e excluida. Possuirá paginação e motos de busca.
+- `Funcionalidade 7` `Autenticação`: O sistema possuirá autenticação e proteção de rotas. Somente usuários de role "admin" poderão acessar o sistema. O usuário poderá editar os dados do seu perfil.
+ - `Funcionalidade 8` `Dados do restaurante`: Dados do restaurante poderão ser cadastrados como: logo, nome, cnpj, endereço, tempo estimado de entrega e horário de funcionamento.
 
-        <div style={{ border: "2px solid #FB923C", padding: "12px", borderRadius: "20px", borderColor: "" }}>
-          <h2 style={{ marginBottom: "12px", fontWeight: "bolder" }}>Add Produto</h2>
-          <img style={{ border: "2px", borderRadius: "8px" }} src="https://github.com/BiancaHoffer/web-delivery-/assets/99914904/e74e4461-a669-4a24-96d4-358f21c6dd5a" />
-        </div>
-      </div>
+## ✔️ Tecnologias utilizadas
+
+- ``Reactjs``
+- ``TypeScript``
+- ``Nextjs 13``
+- ``Tailwindcss``
+- ``Firebase 10``
+- ``HeadlessUI``
+- ``React Hook Form``
+- ``Zod``
+
+## 🎯 Vídeo do projeto 
+https://github.com/BiancaHoffer/web-delivery-/assets/99914904/95fcd6e6-1b57-4e3a-aae9-c84fce8d8b24
