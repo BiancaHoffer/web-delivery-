@@ -28,7 +28,6 @@ export function ActiveLink({
       <div>
         {children}
       </div>
-
       {title}
     </Link>
   )

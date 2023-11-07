@@ -62,7 +62,6 @@ export default function Clients() {
         title="Clientes"
         children={<IoPersonOutline />}
       />
-
       <Section>
         <form
           onSubmit={handleSubmit(handleSearchOrder)}
@@ -70,7 +69,6 @@ export default function Clients() {
         >
           <div className="w-full text-zinc-900 font-medium text-sm  flex flex-col">
             <span className="mb-2">Pesquisar</span>
-
             <Input
               icon={<IoSearchOutline />}
               name="client"
@@ -80,11 +78,9 @@ export default function Clients() {
               placeholder="Pesquisar..."
             />
           </div>
-
           <Button type="submit" children="Pesquisar" variantBg="orange" />
         </form>
       </Section>
-
       <div className="rounded-md border-2 border-b-0 overflow-auto">
         <table className="w-full rounded-2xl ">
           <thead className="bg-zinc-50 text-zinc-500">
@@ -95,7 +91,6 @@ export default function Clients() {
               <th className="p-5">Endereço de entrega atual</th>
             </tr>
           </thead>
-
           <tbody className="w-full">
             {listProducts.map((item, index) => {
               return (

@@ -3,14 +3,12 @@ import { useState } from "react"
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
 
 interface SelectProps {
-  title?: string;
   list: string[];
   selected: string;
   setSelected: any;
 }
 
 export function InputSelect({
-  title,
   list,
   selected,
   setSelected,
@@ -30,7 +28,6 @@ export function InputSelect({
           id="checkbox-select"
           onChange={() => setIsSelected(!isSelected)}
         />
-
         <div className="w-[100%] text-zinc-900">
           {selected}
         </div>
@@ -39,8 +36,6 @@ export function InputSelect({
           {isSelected ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </div>
       </div>
-
-
       <div className={`relative w-[100%] p-20" 
       ${isSelected ? "flex" : "hidden"}
       `}>

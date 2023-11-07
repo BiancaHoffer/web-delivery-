@@ -104,7 +104,6 @@ export default function Orders() {
         title="Pedidos"
         children={<IoCreateOutline />}
       />
-
       <Section>
         <form
           onSubmit={handleSubmit(handleSearchOrder)}
@@ -112,7 +111,6 @@ export default function Orders() {
         >
           <div className="w-[50%] sm:w-full text-zinc-900 font-medium text-sm  flex flex-col">
             <span className="mb-2">Pesquisar</span>
-
             <Input
               icon={<IoSearchOutline />}
               name="search"
@@ -122,10 +120,8 @@ export default function Orders() {
               placeholder="Pesquisar..."
             />
           </div>
-
           <div className="w-[50%] sm:w-full text-zinc-900 font-medium text-sm gap-2 flex flex-col">
             <span>Satus do pedido</span>
-
             <InputSelect
               list={status}
               selected={selected}
@@ -136,7 +132,6 @@ export default function Orders() {
           <Button type="submit" children="Pesquisar" variantBg="orange" />
         </form>
       </Section>
-
       <div className="rounded-md border-2 border-b-0 border-zinc-100 overflow-auto">
         <table className="w-full rounded-2xl ">
           <thead className="bg-zinc-50 text-zinc-500">
@@ -150,7 +145,6 @@ export default function Orders() {
               <th className="p-5 rounded-t-2xl">Editar/ Detalhes</th>
             </tr>
           </thead>
-
           <tbody className="w-full">
             {listProducts.map((item, index) => {
               return (
@@ -208,7 +202,6 @@ export default function Orders() {
                     >
                       <IoCreateOutline />
                     </button>
-
                     <button onClick={() => {
                       setOpenModalDetailsOrder(true);
                       setItemEditOrder(item)
@@ -216,7 +209,6 @@ export default function Orders() {
                     >
                       <BiDetail />
                     </button>
-
                     <button onClick={() => {
                       setOpenModalDeleteOrder(true);
                       setItemEditOrder(item)
@@ -231,19 +223,16 @@ export default function Orders() {
           </tbody>
         </table>
       </div >
-
       <EditOrder
         isOpen={openModalEditOrder}
         setIsOpen={setOpenModalEditOrder}
         data={listProducts}
       />
-
       <DeleteOrder
         isOpen={openModalDeleteOrder}
         setIsOpen={setOpenModalDeleteOrder}
         item={itemEditOrder}
       />
-
       <DetailsOrder
         isOpen={openModalDetailsOrder}
         setIsOpen={setOpenModalDetailsOrder}

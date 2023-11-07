@@ -23,3 +23,43 @@ image: z
     .refine(file => file !== null, "Insira uma imagem do produto")
     .refine(file => file !== null && file!.size <= 5 * 1024 * 1024, "O arquivo precisa ter no máximo 50MB")
 
+
+    Filter for Firebase 
+     useEffect(() => {
+    setFilteredproduct(products);
+  }, [products, filteredproduct])
+
+  async function handleSearchOrder(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const productsRef = collection(db, "product");
+
+      let filterList = [] as any;
+
+      const q = query(productsRef,
+        or(where('name', '==', `${nameProduct}`),
+          where('category', '==', `${selected}`)
+        )
+      );
+
+      const queryProduct = await getDocs(q);
+
+      queryProduct.forEach((doc) => {
+        filterList.push(doc.data() as ProductData[]);
+        setFilteredproduct(filterList);
+      });
+
+      if (queryProduct.empty) {
+        alert("Nenhum produto encontrado");
+        setFilteredproduct(products);
+      }
+    } catch {
+      alert("Erro ao filtrar produto. Entre em contato com o administrador");
+
+    } finally {
+      setNameProduct("");
+      setSelected("Selecionar Categoria");
+    }
+  }
+

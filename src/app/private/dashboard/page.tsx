@@ -44,11 +44,9 @@ export default function Dashboard() {
       <h1 className="text-3xl text-orange-400 leading-10 mb-4">
         Bem-vindo(a)
       </h1>
-
       <h1 className="text-base text-zinc-500">
         Bianca Macedo Hoffer Madruga
       </h1>
-
       <Section>
         <form
           onSubmit={handleSubmit(handleRestauntOpenOrClosed)}
@@ -57,7 +55,6 @@ export default function Dashboard() {
           <div className="w-[50%] flex items-center sm:w-full text-sm font-medium">
             No momento estamos:
           </div>
-
           <div className="w-[50%] sm:w-full">
             <InputSelect
               selected={selected}
@@ -65,7 +62,6 @@ export default function Dashboard() {
               list={openOrClose}
             />
           </div>
-
           <Button
             type="submit"
             children="Aplicar"
@@ -73,7 +69,6 @@ export default function Dashboard() {
           />
         </form>
       </Section>
-
       <div className="w-full shadow-lg mt-8 flex gap-8 bg-primary rounded-lg px-8 py-12">
         <div className="p-8 w-full bg-white rounded-lg shadow-lg mb-[-200px]">
           Total em vendas
@@ -83,22 +78,17 @@ export default function Dashboard() {
           Total de clientes
         </div>
       </div>
-
       <div className="mt-[200px]">
         <h1 className="text-base text-zinc-900 font-medium">
           Pedidos de hoje
         </h1>
-
         ... Tabela de pedidos data atual
       </div>
-
       <div className="mt-8">
         <h1 className="text-base text-zinc-900 font-medium">
           Produtos cadastrados recentemente
         </h1>
-
         ... Lista de produtos cadastrados recentemente
-
       </div>
     </div>
   )

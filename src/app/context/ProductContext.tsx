@@ -1,7 +1,9 @@
 'use client';
 
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -12,7 +14,8 @@ import {
   collection,
   doc,
   deleteDoc,
-  onSnapshot
+  onSnapshot,
+  getDocs
 } from "firebase/firestore";
 
 import { db } from '../services/firebase';
@@ -22,7 +25,6 @@ interface AuthProviderProps {
 }
 
 interface AuthContextProps {
-  products: ProductData[];
   loading: boolean;
   deleteProduct: (id: string) => Promise<void>;
   checkingStatus: boolean;
@@ -44,27 +46,6 @@ export function ProductProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(false);
   const [checkingStatus, setCheckingStatus] = useState(true);
 
-  const refProduct = collection(db, "product");
-
-  useEffect(() => {
-    async function getProductByCategory() {
-      const listProducts = [] as any;
-
-      onSnapshot(refProduct, snapshot => {
-        snapshot.docs.forEach(doc => {
-          const products = doc.data();
-          listProducts.push(products);
-        });
-        setProducts(listProducts);
-        setCheckingStatus(!checkingStatus);
-      })
-    }
-
-    getProductByCategory();
-  }, [checkingStatus]);
-
-
-
   async function deleteProduct(id: string) {
     await deleteDoc(doc(db, "product", id));
     setCheckingStatus(!checkingStatus);
@@ -72,10 +53,9 @@ export function ProductProvider({ children }: AuthProviderProps) {
 
   return (
     <ProductContext.Provider value={{
-      products,
       loading,
       deleteProduct,
-      checkingStatus,
+      checkingStatus
     }}>
       {children}
     </ProductContext.Provider>

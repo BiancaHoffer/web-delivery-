@@ -33,13 +33,11 @@ export default function privateLayout({ children }: privateLayoutProps) {
         <div className="shadow-lg shadow-slate-400 flex w-auto">
           <div className="flex flex-col justify-between text-orange-50 min-h-screen w-16 lg:hidden hover:transition-colors bg-secondary p-3 py-5">
             <Image src={logo} alt="logo" className="" />
-
             <div>
               <div className="flex flex-col items-center gap-8 justify-center mb-6 ">
                 <button className="text-orange-100 hover:text-orange-300 pr-1">
                   <IoSettingsOutline size={24} />
                 </button>
-
                 <button
                   onClick={() => router.push("/")}
                   className="text-orange-100 hover:text-orange-300"
@@ -47,16 +45,12 @@ export default function privateLayout({ children }: privateLayoutProps) {
                   <IoLogOutOutline size={26} />
                 </button>
               </div>
-
               <div className="border-t-[1px] border-orange-400">
                 <Image src={avatar} alt="avatar" className="rounded-full object-cover mt-6 shadow-lg" />
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col min-h-screen w-64 bg-primary px-4 py-5 justify-between
-          lg:hidden
-        ">
+          <div className="flex flex-col min-h-screen w-64 bg-primary px-4 py-5 justify-between lg:hidden">
             <div className="flex flex-col gap-4">
               <ActiveLink href='/private/dashboard' children={<IoMenuOutline />} title="Dashboard" />
               <ActiveLink href='/private/orders' children={<IoCreateOutline />} title="Pedidos" />
@@ -64,23 +58,19 @@ export default function privateLayout({ children }: privateLayoutProps) {
               <ActiveLink href='/private/products' children={<IoFastFoodOutline />} title="Produtos" />
               <ActiveLink href='/private/newProduct' children={<IoAdd />} title="Novo produto" />
             </div>
-
             <div className="text-orange-100">
               <p>Bem-vindo(a)</p>
               <p>Bianca Macedo Hoffer M.</p>
             </div>
           </div>
         </div>
-
         <div className="p-6 w-full lg:py-0 lg:px-0">
           <div className="hidden lg:flex justify-between w-[100%] bg-secondary px-4 py-4">
             <Image src={logo} alt="logo" className="w-8" />
-
             <div className="flex items-center justify-center gap-4 text-t-tertiary">
               <button className="text-orange-100 hover:text-orange-200 pr-1">
                 <IoSettingsOutline size={24} />
               </button>
-
               <button
                 onClick={() => router.push("/")}
                 type="button"
@@ -88,7 +78,6 @@ export default function privateLayout({ children }: privateLayoutProps) {
               >
                 <IoLogOutOutline size={26} />
               </button>
-
               <Image src={avatar} alt="avatar" className="rounded-full object-cover shadow-lg w-8" />
             </div>
           </div>
@@ -99,7 +88,6 @@ export default function privateLayout({ children }: privateLayoutProps) {
             <ActiveLink href='/private/products' children={<IoFastFoodOutline />} />
             <ActiveLink href='/private/newProduct' children={<IoAdd />} />
           </div>
-
           <div className="lg:px-6 lg:my-4">
             {children}
           </div>

@@ -22,9 +22,10 @@ import { doc, setDoc, collection, arrayUnion, getDocs } from "firebase/firestore
 import { db, storage } from "@/app/services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { InputSelect } from "@/app/components/InputSelect";
+import { useProduct } from "@/app/context/ProductContext";
 
 const createNewProductFormSchema = z.object({
-  product: z.string().nonempty("Nome do produto obrigatório"),
+  name: z.string().nonempty("Nome do produto obrigatório"),
   price: z.string().nonempty("Preço obrigatório"),
   description: z.string(),
 })
@@ -44,6 +45,7 @@ export interface ImageFile extends File {
 export default function NewProducts() {
   const [openModal, setOpenModal] = useState(false);
   const [image, setImage] = useState<ImageFile | null>(null);
+
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState("Selecionar categoria");
 
@@ -70,7 +72,7 @@ export default function NewProducts() {
   } = useForm<CreateNewProductFormData>({
     resolver: zodResolver(createNewProductFormSchema),
     defaultValues: {
-      product: "",
+      name: "",
       price: "",
       description: "",
     }
@@ -78,9 +80,7 @@ export default function NewProducts() {
 
   const { errors } = formState;
 
-  /*Firebase*/
   const UIDProductGenerate = Math.floor(Date.now() * Math.random()).toString(32);
-  /*Firebase*/
 
   async function handleCreateProduct(data: CreateNewProductFormData) {
     if (categorySelected == "Selecionar categoria") {
@@ -119,17 +119,14 @@ export default function NewProducts() {
             .then((url) => {
               const product = {
                 id: UIDProductGenerate,
-                product: data.product,
+                name: data.name,
                 price: data.price,
                 description: data.description,
                 category: categorySelected,
                 image: url,
-              } as DataForm
+              } as DataForm;
 
-              // add product in collection "product"
               setDoc(doc(db, "product", UIDProductGenerate), product);
-
-              // function add product in collection "category/${key}"
               addProductInCategory(product);
             })
         })
@@ -178,31 +175,26 @@ export default function NewProducts() {
         children={<IoAdd />}
         subtitle="Adicione novos produtos ao seu menu!"
       />
-
       <form
         onSubmit={handleSubmit(handleCreateProduct)}
       >
         <Section>
           <div className="w-[50%] sm:w-full">
             <Input
-              name="product"
+              name="name"
               errors={errors}
               register={register}
               placeholder="Nome do produto"
             />
           </div>
-
-
           <div className="w-[50%] sm:w-full">
             <InputSelect
-              title="categorias"
               setSelected={setCategorySelected}
               selected={categorySelected}
               list={categories}
             />
           </div>
         </Section>
-
         <Section>
           <div className="flex-col justify-center flex gap-4 w-full">
             <div className="lg:flex-col w-full flex gap-4">
@@ -227,7 +219,6 @@ export default function NewProducts() {
                   </div>
                 </div>
               </div>
-
               <div className="w-[50%] lg:w-full">
                 <InputMoney
                   name="price"
@@ -238,7 +229,6 @@ export default function NewProducts() {
                 />
               </div>
             </div>
-
             <div className="w-full">
               <TextArea
                 errors={errors}
@@ -246,12 +236,10 @@ export default function NewProducts() {
                 register={register}
                 name="description"
                 placeholder="Breve descrição do produto"
-
               />
             </div>
           </div>
         </Section>
-
         <div className="flex gap-4">
           <Button
             type="submit"
@@ -266,7 +254,6 @@ export default function NewProducts() {
           />
         </div>
       </form>
-
       <ModalCancelProduct
         isOpen={openModal}
         setIsOpen={setOpenModal}

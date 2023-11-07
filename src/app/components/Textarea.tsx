@@ -28,7 +28,6 @@ export function TextArea({
         {...register(name)}
         {...props}
       />
-
       <div className={`${activeErrors ? "flex" : "hidden"}`}>
         {errors[name]?.message
           && <span className="text-t-error font-medium text-sm pl-1">

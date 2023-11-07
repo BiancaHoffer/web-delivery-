@@ -9,7 +9,6 @@ import {
   FieldValues
 } from "react-hook-form";
 
-
 interface InputProps extends ComponentProps<'input'> {
   icon?: React.ReactNode;
   name: string;
@@ -28,7 +27,8 @@ export function Input({
   inputIsPassword = false,
   startWithHiddenPassword = false,
   activeErrors = true,
-  ...props }: InputProps) {
+  ...props
+}: InputProps) {
   const [showPassword, setShowPassword] = useState(startWithHiddenPassword);
 
   return (
@@ -39,14 +39,12 @@ export function Input({
             {icon}
           </span>
         }
-
         <input
           className="text-zinc-900 pr-3 pl-2 py-2 rounded-lg w-full text-base"
           type={showPassword === true ? "password" : "text"}
           {...register(name)}
           {...props}
         />
-
         <span className={`${inputIsPassword ? "flex" : "hidden"}`}>
           <button
             type="button"
@@ -57,7 +55,6 @@ export function Input({
           </button>
         </span>
       </div>
-
       <div className={`${activeErrors === true ? "flex" : "hidden"}`}>
         {errors[name]?.message &&
           <span className="text-error font-medium text-sm pl-1">

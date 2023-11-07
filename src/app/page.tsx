@@ -46,7 +46,6 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center w-full h-[100vh] gap-12">
       <Image src={logo} alt="logo" className="w-16" />
-
       <form
         onSubmit={handleSubmit(handleSignIn)}
         className="flex flex-col gap-2"
@@ -59,7 +58,6 @@ export default function Home() {
           errors={errors}
           icon={<IoMailOutline />}
         />
-
         <Input
           name="password"
           placeholder="Senha"
@@ -69,17 +67,13 @@ export default function Home() {
           errors={errors}
           icon={<IoLockClosedOutline />}
         />
-
         <Button
           type="submit"
           children="Entrar"
           variantBg="orange"
         />
       </form>
-
       <span className="text-zinc-200">_______________________</span>
-
-
       <Link
         href="https://biancahoffer.vercel.app/"
         target="_blank"

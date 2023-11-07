@@ -11,12 +11,10 @@ export function TitlePage({ children, subtitle, title }: TitlePageProps) {
         <div className="pt-1 text-primary text-3xl">
           {children}
         </div>
-
         <h1 className="text-2xl font-medium">
           {title}
         </h1>
       </div>
-
       {subtitle &&
         <p className="text-base text-text-secondary">
           {subtitle}

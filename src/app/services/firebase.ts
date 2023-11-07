@@ -1,16 +1,18 @@
+'use client'
+
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseApp = initializeApp({
-  apiKey: "AIzaSyC20Tt-R4pFXchWKItS2uowgpJ5bVIRUCo",
-  authDomain: "web-delivery-7d187.firebaseapp.com",
-  projectId: "web-delivery-7d187",
-  storageBucket: "web-delivery-7d187.appspot.com",
-  messagingSenderId: "315176406164",
-  appId: "1:315176406164:web:6ff72b578b58959cadf881",
-  measurementId: "G-9NEG3H0EZ8"
+  apiKey: "AIzaSyAlPAstnvuM1zi0mJZOfuFVgeRkZy6d0_E",
+  authDomain: "web-delivery-b3d7a.firebaseapp.com",
+  projectId: "web-delivery-b3d7a",
+  storageBucket: "web-delivery-b3d7a.appspot.com",
+  messagingSenderId: "996714804716",
+  appId: "1:996714804716:web:1078ac51e258d3b5d63cc9",
+  measurementId: "G-K5WHR4EBFD"
 });
 
 export const auth = getAuth(firebaseApp);

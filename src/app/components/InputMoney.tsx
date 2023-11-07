@@ -37,7 +37,6 @@ export function InputMoney({
           {...props}
         />
       </div>
-
       <div className={`${activeErrors === true ? "flex" : "hidden"}`}>
         {errors[name]?.message
           && <span className="text-error font-medium text-sm pl-1">

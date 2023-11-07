@@ -10,7 +10,7 @@ interface ModalDeleteOrderProps {
   setImage: Dispatch<SetStateAction<ImageFile | null>>;
   setList: Dispatch<SetStateAction<string>>;
   reset: UseFormReset<{
-    product: string;
+    name: string;
     price: string;
     description: string;
   }>
