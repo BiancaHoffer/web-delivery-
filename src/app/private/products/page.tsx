@@ -27,6 +27,7 @@ import {
   startAfter
 } from "firebase/firestore";
 import { db } from "@/app/services/firebase";
+import { ModalDelete } from "./components/ModalDelete";
 
 export interface ProductData extends DocumentData {
   id: string;
@@ -43,6 +44,8 @@ export default function Products() {
     formState
   } = useForm();
   const { errors } = formState;
+
+
 
   const [products, setProducts] = useState<ProductData[]>([]);
   const [filtered, setFiltered] = useState<ProductData[]>([]);
@@ -79,21 +82,21 @@ export default function Products() {
           const products = doc.data();
           listProducts.push(products);
         });
+        setProducts(listProducts);
       });
-      setProducts(listProducts);
     }
     getProductByCategory();
   }, []);
 
   useEffect(() => {
     function search() {
-      handleSearchProduct();
+      handleSearch();
     };
 
     search();
   }, [nameProduct, selected])
 
-  function handleSearchProduct() {
+  function handleSearch() {
     if (selected !== "Selecionar categoria") {
       const filter = products.filter((e) => e.category.includes(selected));
       setFiltered(filter);
@@ -117,20 +120,20 @@ export default function Products() {
   }
 
   return (
-    <>
+    <main>
       <TitlePage
         title="Produtos"
         children={<IoFastFoodOutline />}
       />
       <Section>
         <form
-          onSubmit={handleSearchProduct}
+          onSubmit={handleSearch}
           className="flex gap-4 w-full items-end"
         >
-          <div className="w-[100%] flex flex-col">
-            <span className="mb-2 text-zinc-900 font-medium sm:w-full text-sm ">
+          <fieldset className="w-[100%] flex flex-col">
+            <legend className="mb-2 text-zinc-900 font-medium sm:w-full text-sm ">
               Pesquisar por nome
-            </span>
+            </legend>
             <Input
               icon={<IoSearchOutline />}
               name="search"
@@ -141,24 +144,24 @@ export default function Products() {
               onChange={(e) => setNameProduct(e.target.value)}
               value={nameProduct}
             />
-          </div>
-          <div className="text-zinc-400 flex w-[40px] items-center justify-center pb-3">
+          </fieldset>
+          <span className="text-zinc-400 flex w-[40px] items-center justify-center pb-3">
             e/ou
-          </div>
-          <div className="w-[100%] gap-2 flex flex-col">
-            <span className="text-zinc-900 font-medium sm:w-full  text-sm">
+          </span>
+          <fieldset className="w-[100%] gap-2 flex flex-col">
+            <legend className="text-zinc-900 font-medium sm:w-full mb-2 text-sm">
               Categoria do produto
-            </span>
+            </legend>
             <InputSelect
               list={categories}
               selected={selected}
               setSelected={setSelected}
             />
-          </div>
+          </fieldset>
           <Button type="button" children="Limpar" variantBg="gray" onClick={handleCleanFilter} />
         </form>
       </Section>
       <ProductsList list={nameProduct.length > 0 || selected !== "Selecionar categoria" ? filtered : products} />
-    </>
+    </main>
   )
 }

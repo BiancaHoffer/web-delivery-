@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, SetStateAction } from "react";
-import { Button } from "../Button";
+import { Button } from "../../../components/Button";
 import { UseFormReset } from "react-hook-form";
 import { ImageFile } from "@/app/private/newProduct/page";
 
@@ -16,7 +16,7 @@ interface ModalDeleteOrderProps {
   }>
 }
 
-export function ModalCancelProduct({
+export function Modal({
   isOpen,
   setIsOpen,
   reset,

@@ -122,11 +122,7 @@ export default function Orders() {
           </div>
           <div className="w-[50%] sm:w-full text-zinc-900 font-medium text-sm gap-2 flex flex-col">
             <span>Satus do pedido</span>
-            <InputSelect
-              list={status}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
           </div>
 
           <Button type="submit" children="Pesquisar" variantBg="orange" />

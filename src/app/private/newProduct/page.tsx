@@ -14,15 +14,14 @@ import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { TextArea } from "@/app/components/Textarea";
 import { TitlePage } from "@/app/components/TitlePage";
-import { ModalCancelProduct } from "@/app/components/modals/ModalCancelProduct";
+import { InputSelect } from "@/app/components/InputSelect";
 
 import { toast } from 'react-toastify';
 
 import { doc, setDoc, collection, arrayUnion, getDocs } from "firebase/firestore";
 import { db, storage } from "@/app/services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { InputSelect } from "@/app/components/InputSelect";
-import { useProduct } from "@/app/context/ProductContext";
+import { Modal } from "./components/Modal";
 
 const createNewProductFormSchema = z.object({
   name: z.string().nonempty("Nome do produto obrigatório"),
@@ -128,8 +127,14 @@ export default function NewProducts() {
 
               setDoc(doc(db, "product", UIDProductGenerate), product);
               addProductInCategory(product);
-            })
-        })
+            });
+        });
+
+      toast.success("Produto criado com sucesso!", {
+        position: "top-right",
+        autoClose: 9000,
+        theme: "colored",
+      });
     } catch {
       toast.error("Erro ao cadastrar produto. Entre em contato com o administrador.", {
         position: "top-right",
@@ -139,13 +144,7 @@ export default function NewProducts() {
     } finally {
       reset();
       setImage(null);
-      setCategorySelected("Selecionar categorias")
-
-      toast.success("Produto criado com sucesso!", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      setCategorySelected("Selecionar categorias");
     }
   }
 
@@ -164,12 +163,11 @@ export default function NewProducts() {
         autoClose: 9000,
         theme: "colored",
       });
-
-    }
-  }
+    };
+  };
 
   return (
-    <>
+    <main>
       <TitlePage
         title="Registrar produto"
         children={<IoAdd />}
@@ -254,13 +252,13 @@ export default function NewProducts() {
           />
         </div>
       </form>
-      <ModalCancelProduct
+      <Modal
         isOpen={openModal}
         setIsOpen={setOpenModal}
         setImage={setImage}
         setList={setCategorySelected}
         reset={reset}
       />
-    </>
+    </main>
   )
 }

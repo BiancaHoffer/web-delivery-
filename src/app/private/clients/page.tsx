@@ -57,7 +57,7 @@ export default function Clients() {
   }
 
   return (
-    <>
+    <main>
       <TitlePage
         title="Clientes"
         children={<IoPersonOutline />}
@@ -118,6 +118,6 @@ export default function Clients() {
           </tbody>
         </table>
       </div >
-    </>
+    </main>
   )
 }

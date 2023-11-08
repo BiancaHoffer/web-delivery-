@@ -44,7 +44,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-[100vh] gap-12">
+    <main className="flex flex-col justify-center items-center w-full h-[100vh] gap-12">
       <Image src={logo} alt="logo" className="w-16" />
       <form
         onSubmit={handleSubmit(handleSignIn)}
@@ -86,6 +86,6 @@ export default function Home() {
           className="w-6"
         />
       </Link>
-    </div>
+    </main>
   )
 }
