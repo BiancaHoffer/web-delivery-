@@ -12,7 +12,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`text-white transition-colors sm:w-full hover:bg-orange-300 rounded-lg py-[9.5px] px-8 shadow-md
+      className={`text-white min-w-[140px] transition-colors sm:w-full rounded-lg py-[9.5px] px-8 shadow-md hover:bg-orange-300 disabled:opacity-40 disabled:cursor-not-allowed
       ${variantBg === "orange"
           ? "bg-secondary"
           : variantBg === "gray"

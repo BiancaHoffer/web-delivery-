@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 
 import { doc, setDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/services/firebase";
+import { Loading } from "@/app/components/Loading";
 
 const createNewProductFormSchema = z.object({
   name: z.string().nonempty("Nome da categoria obrigatório"),
@@ -27,6 +28,7 @@ export type CreateNewProductFormData = z.infer<typeof createNewProductFormSchema
 export default function NewCategory() {
   const [openModal, setOpenModal] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -61,6 +63,7 @@ export default function NewCategory() {
 
   async function handleAddCategory(data: CreateNewProductFormData) {
     try {
+      setIsLoading(true);
       /*const categoryExists = categories.findIndex(name => name === data.name);
 
       if (categoryExists) {
@@ -89,6 +92,7 @@ export default function NewCategory() {
       console.log(error)
     } finally {
       reset();
+      setIsLoading(false);
     }
   }
 
@@ -115,7 +119,8 @@ export default function NewCategory() {
         <div className="flex gap-4">
           <Button
             type="submit"
-            children="Salvar"
+            children={isLoading ? <Loading /> : "Salvar"}
+            disabled={isLoading}
             variantBg="orange"
           />
           <Button

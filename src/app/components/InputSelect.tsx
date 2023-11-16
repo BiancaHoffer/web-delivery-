@@ -40,9 +40,9 @@ export function InputSelect({
         </div>
       </div>
       <div className={`relative w-[100%]  transition-all duration-300
-      ${isSelected ? "flex opacity-100" : "opacity-0"}
+      ${isSelected ? "flex opacity-100" : "opacity-0 z-[-9]"}
       `}>
-        <div className="absolute z-10 w-[100%] overflow-auto max-h-[200px] rounded-lg border-[1px] bg-white flex-col shadow-lg"
+        <div className="absolute w-[100%] overflow-auto max-h-[200px] rounded-lg border-[1px] bg-white flex-col shadow-lg"
         >
           {list.map((i, index) => {
             return (

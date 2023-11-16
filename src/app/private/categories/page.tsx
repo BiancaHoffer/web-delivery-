@@ -64,7 +64,7 @@ export default function Categories() {
     };
 
     search();
-  }, [nameCategory])
+  }, [nameCategory]);
 
   function handleSearch() {
     if (nameCategory !== "") {
@@ -76,7 +76,7 @@ export default function Categories() {
   function handleCleanFilter() {
     setNameCategory("");
     setFiltered([]);
-  }
+  };
 
   return (
     <main>

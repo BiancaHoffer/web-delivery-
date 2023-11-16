@@ -22,6 +22,7 @@ import { doc, setDoc, collection, arrayUnion, getDocs } from "firebase/firestore
 import { db, storage } from "@/app/services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Modal } from "./components/Modal";
+import { Loading } from "@/app/components/Loading";
 
 const createNewProductFormSchema = z.object({
   name: z.string().nonempty("Nome do produto obrigatório"),
@@ -47,6 +48,8 @@ export default function NewProducts() {
 
   const [categories, setCategories] = useState<string[]>([]);
   const [categorySelected, setCategorySelected] = useState("Selecionar categoria");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getDocsCategory() {
@@ -112,6 +115,7 @@ export default function NewProducts() {
     const storageRef = ref(storage, `product_images/${image.name}`);
 
     try {
+      setIsLoading(true);
       await uploadBytes(storageRef, image)
         .then(() => {
           getDownloadURL(storageRef)
@@ -145,6 +149,7 @@ export default function NewProducts() {
       reset();
       setImage(null);
       setCategorySelected("Selecionar categorias");
+      setIsLoading(false);
     }
   }
 
@@ -241,7 +246,8 @@ export default function NewProducts() {
         <div className="flex gap-4">
           <Button
             type="submit"
-            children="Registrar produto"
+            children={isLoading ? <Loading /> : "Salvar"}
+            disabled={isLoading}
             variantBg="orange"
           />
           <Button

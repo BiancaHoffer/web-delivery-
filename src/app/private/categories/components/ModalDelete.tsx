@@ -9,18 +9,17 @@ import { deleteDoc, doc } from "firebase/firestore";
 
 
 interface ModalDeleteProps {
-  id: string;
   name: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function ModalDelete({ isOpen, setIsOpen, id, name }: ModalDeleteProps) {
+export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
   async function handleDelete(id: string) {
     try {
-      await deleteDoc(doc(db, "product", id));
+      await deleteDoc(doc(db, "category", id));
     } catch {
-      alert("Erro ao deletar produto. Entre em contato com o administrador.")
+      alert("Erro ao deletar categoria. Entre em contato com o administrador.")
     } finally {
       window.location.reload();
     }
@@ -62,7 +61,8 @@ export function ModalDelete({ isOpen, setIsOpen, id, name }: ModalDeleteProps) {
                 <form action="">
                   <div>
                     <p className="text-base text-gray-500 mb-8">
-                      Tem certeza de que deseja excluir o produto?
+                      Tem certeza de que deseja excluir a categoria? <br />
+                      *Os produtos dessa categoria não serão excluidos.
                     </p>
                   </div>
                   <div className="flex gap-4">
@@ -70,7 +70,7 @@ export function ModalDelete({ isOpen, setIsOpen, id, name }: ModalDeleteProps) {
                       type="submit"
                       variantBg="red"
                       children="Excluir"
-                      onClick={() => handleDelete(id)}
+                      onClick={() => handleDelete(name)}
                     />
                     <Button
                       variantBg="gray"

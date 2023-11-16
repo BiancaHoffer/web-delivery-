@@ -20,14 +20,9 @@ import {
   DocumentData,
   collection,
   getDocs,
-  limit,
   onSnapshot,
-  orderBy,
-  query,
-  startAfter
 } from "firebase/firestore";
 import { db } from "@/app/services/firebase";
-import { ModalDelete } from "./components/ModalDelete";
 
 export interface ProductData extends DocumentData {
   id: string;
@@ -45,8 +40,6 @@ export default function Products() {
   } = useForm();
   const { errors } = formState;
 
-
-
   const [products, setProducts] = useState<ProductData[]>([]);
   const [filtered, setFiltered] = useState<ProductData[]>([]);
 
@@ -54,6 +47,8 @@ export default function Products() {
 
   const [selected, setSelected] = useState("Selecionar categoria");
   const [nameProduct, setNameProduct] = useState("");
+
+  const [loadingProducts, setLoadigProducts] = useState(false)
 
   const refProduct = collection(db, "product");
   const refCategory = collection(db, "category");
@@ -76,14 +71,20 @@ export default function Products() {
   useEffect(() => {
     async function getProductByCategory() {
       const listProducts = [] as any;
-
-      onSnapshot(refProduct, snapshot => {
-        snapshot.docs.forEach(doc => {
-          const products = doc.data();
-          listProducts.push(products);
+      try {
+        setLoadigProducts(true)
+        onSnapshot(refProduct, snapshot => {
+          snapshot.docs.forEach(doc => {
+            const products = doc.data();
+            listProducts.push(products);
+          });
+          setProducts(listProducts);
         });
-        setProducts(listProducts);
-      });
+      } catch {
+
+      } finally {
+        setLoadigProducts(false)
+      }
     }
     getProductByCategory();
   }, []);
@@ -111,6 +112,8 @@ export default function Products() {
       const filter = products.filter((e) => e.name.toLowerCase().includes(nameProduct.toLowerCase()) && e.category.includes(selected));
       setFiltered(filter);
     }
+
+    return;
   };
 
   function handleCleanFilter() {
@@ -158,7 +161,12 @@ export default function Products() {
               setSelected={setSelected}
             />
           </fieldset>
-          <Button type="button" children="Limpar" variantBg="gray" onClick={handleCleanFilter} />
+          <Button
+            type="button"
+            children="Limpar"
+            variantBg="gray"
+            onClick={handleCleanFilter}
+          />
         </form>
       </Section>
       <ProductsList list={nameProduct.length > 0 || selected !== "Selecionar categoria" ? filtered : products} />

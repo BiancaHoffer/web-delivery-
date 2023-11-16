@@ -1,16 +1,23 @@
 'use client'
+import { useEffect, useState } from "react";
 
-import { TitlePage } from "@/app/components/TitlePage"
-import { IoPersonOutline, IoSearchOutline } from "react-icons/io5"
+import { IoPersonOutline, IoSearchOutline } from "react-icons/io5";
 
 import avatar from "../../../../public/avatar.png";
 import Image from "next/image";
+
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
+import { Section } from "@/app/components/Section";
+import { TitlePage } from "@/app/components/TitlePage";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Section } from "@/app/components/Section";
+
+
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/app/services/firebase";
 
 const listProducts = [
   {
@@ -30,6 +37,14 @@ const listProducts = [
   { id: 5, client: "Paulo Cesar", phone: "(99) 99999-9999", email: "email@email.com", address: [] },
 ]
 
+interface UserData {
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  password: string;
+  phone: string
+}
+
 const createSearchFormSchema = z.object({
   client: z.string(),
 })
@@ -37,6 +52,8 @@ const createSearchFormSchema = z.object({
 export type CreateUSeachFormData = z.infer<typeof createSearchFormSchema>
 
 export default function Clients() {
+  const [users, setUsers] = useState<UserData[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -51,10 +68,27 @@ export default function Clients() {
 
   const { errors } = formState;
 
+  const refUsers = collection(db, "users");
+
   function handleSearchOrder(data: CreateUSeachFormData) {
-    console.log(data);
     reset();
   }
+
+  useEffect(() => {
+    async function getUsers() {
+      const listUsers = [] as any;
+
+      onSnapshot(refUsers, snapshot => {
+        snapshot.docs.forEach(doc => {
+          const users = doc.data();
+          listUsers.push(users);
+          console.log(users)
+        });
+        setUsers(listUsers);
+      });
+    }
+    getUsers();
+  }, []);
 
   return (
     <main>
@@ -92,26 +126,26 @@ export default function Clients() {
             </tr>
           </thead>
           <tbody className="w-full">
-            {listProducts.map((item, index) => {
+            {users.map((item, index) => {
               return (
                 <tr key={index} className="hover:bg-zinc-50 transition-colors  border-b-2 border-zinc-100">
                   <td className="p-5 font-medium w-60 text-start flex gap-2 items-center">
                     <Image src={avatar} alt="avatar" className="w-9 h-9" />
-                    {item.client}
+                    {item.name}
                   </td>
                   <td className="p-5">{item.phone}</td>
                   <td className="p-5">{item.email}</td>
                   <td className="p-5">
                     <div>
-                      {item.address.length === 0 && <div>Nenhum endereço registrado</div>}
+                      {/*item.address.length === 0 && <div>Nenhum endereço registrado</div>*/}
                     </div>
-                    {item.address?.map((address, index) => {
+                    {/*item.address?.map((address, index) => {
                       return (
                         <div key={index}>
                           {address.deliveryAddress === true ? <div>{address.address}</div> : <></>}
                         </div>
                       )
-                    })}</td>
+                    })*/}</td>
                 </tr>
               )
             })}

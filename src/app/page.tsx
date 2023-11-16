@@ -15,6 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { IoLockClosedOutline, IoMailOutline } from "react-icons/io5";
+import { AuthProvider } from "@/app/hooks/useAuth";
 
 const createLoginFormSchema = z.object({
   email: z.string().nonempty("E-mail obrigatório"),
@@ -44,48 +45,50 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col justify-center items-center w-full h-[100vh] gap-12">
-      <Image src={logo} alt="logo" className="w-16" />
-      <form
-        onSubmit={handleSubmit(handleSignIn)}
-        className="flex flex-col gap-2"
-      >
-        <Input
-          name="email"
-          type="email"
-          placeholder="E-mail"
-          register={register}
-          errors={errors}
-          icon={<IoMailOutline />}
-        />
-        <Input
-          name="password"
-          placeholder="Senha"
-          inputIsPassword={true}
-          startWithHiddenPassword={true}
-          register={register}
-          errors={errors}
-          icon={<IoLockClosedOutline />}
-        />
-        <Button
-          type="submit"
-          children="Entrar"
-          variantBg="orange"
-        />
-      </form>
-      <span className="text-zinc-200">_______________________</span>
-      <Link
-        href="https://biancahoffer.vercel.app/"
-        target="_blank"
-        className="flex gap-2 justify-center items-center"
-      >
-        By •
-        <Image
-          src={bianca}
-          alt="bianca macedo hoffer madruga"
-          className="w-6"
-        />
-      </Link>
-    </main>
+    <AuthProvider>
+      <main className="flex flex-col justify-center items-center w-full h-[100vh] gap-12">
+        <Image src={logo} alt="logo" className="w-16" />
+        <form
+          onSubmit={handleSubmit(handleSignIn)}
+          className="flex flex-col gap-2"
+        >
+          <Input
+            name="email"
+            type="email"
+            placeholder="E-mail"
+            register={register}
+            errors={errors}
+            icon={<IoMailOutline />}
+          />
+          <Input
+            name="password"
+            placeholder="Senha"
+            inputIsPassword={true}
+            startWithHiddenPassword={true}
+            register={register}
+            errors={errors}
+            icon={<IoLockClosedOutline />}
+          />
+          <Button
+            type="submit"
+            children="Entrar"
+            variantBg="orange"
+          />
+        </form>
+        <span className="text-zinc-200">_______________________</span>
+        <Link
+          href="https://biancahoffer.vercel.app/"
+          target="_blank"
+          className="flex gap-2 justify-center items-center"
+        >
+          By •
+          <Image
+            src={bianca}
+            alt="bianca macedo hoffer madruga"
+            className="w-6"
+          />
+        </Link>
+      </main>
+    </AuthProvider>
   )
 }

@@ -39,9 +39,9 @@ export interface ProductData {
   category: string;
 }
 
-export const ProductContext = createContext({} as AuthContextProps);
+export const AuthContext = createContext({} as AuthContextProps);
 
-export function ProductProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: AuthProviderProps) {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState(false);
   const [checkingStatus, setCheckingStatus] = useState(true);
@@ -52,18 +52,18 @@ export function ProductProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <ProductContext.Provider value={{
+    <AuthContext.Provider value={{
       loading,
       deleteProduct,
       checkingStatus
     }}>
       {children}
-    </ProductContext.Provider>
+    </AuthContext.Provider>
   )
 }
 
-export function useProduct() {
-  const context = useContext(ProductContext);
+export function useAuth() {
+  const context = useContext(AuthContext);
 
   return context;
 }

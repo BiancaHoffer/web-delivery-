@@ -1,12 +1,7 @@
 import { IoCreateOutline, IoTrashOutline } from "react-icons/io5"
 
 import { DocumentData } from "firebase/firestore";
-
-import Image from "next/image";
-import { useState } from "react";
-
-import { ModalDelete } from "./ModalDelete";
-import { ItemList } from "./Item.List";
+import { ItemList } from "./ItemList";
 
 export interface ProductData extends DocumentData {
   id: string;

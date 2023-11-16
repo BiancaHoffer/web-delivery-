@@ -19,7 +19,7 @@ import avatar from "../../../public/avatar.png";
 import logo from "../../../public/logo.png";
 
 import { ActiveLink } from "../components/ActiveLink";
-import { ProductProvider } from "../context/ProductContext";
+import { ProductProvider } from "../hooks/ProductContext";
 
 interface privateLayoutProps {
   children: ReactNode;
