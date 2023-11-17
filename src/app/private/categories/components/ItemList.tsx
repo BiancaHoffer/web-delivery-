@@ -1,13 +1,18 @@
 import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+
 import { ModalDelete } from "./ModalDelete";
+import { ModalUpdate } from "./ModalUpdate";
+
 import { useState } from "react";
+
 
 interface ItemListProps {
   item: string;
 }
 
 export function ItemList({ item }: ItemListProps) {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
   return (
     <>
@@ -16,11 +21,14 @@ export function ItemList({ item }: ItemListProps) {
           {item[0].toUpperCase() + item.substring(1)}
         </td>
         <td className="p-5 gap-4 text-orange-400 cursor-pointer text-2xl">
-          <button className="transition-all mr-4 hover:text-secondary">
+          <button
+            onClick={() => setOpenModalUpdate(true)}
+            className="transition-all mr-4 hover:text-secondary"
+          >
             <IoCreateOutline />
           </button>
           <button
-            onClick={() => setOpenModal(true)}
+            onClick={() => setOpenModalDelete(true)}
             className="transition-all hover:text-secondary"
           >
             <IoTrashOutline />
@@ -28,9 +36,14 @@ export function ItemList({ item }: ItemListProps) {
         </td>
       </tr>
       <ModalDelete
-        isOpen={openModal}
-        setIsOpen={setOpenModal}
+        isOpen={openModalDelete}
+        setIsOpen={setOpenModalDelete}
         name={item}
+      />
+      <ModalUpdate
+        isOpen={openModalUpdate}
+        setIsOpen={setOpenModalUpdate}
+        category={item}
       />
     </>
   )

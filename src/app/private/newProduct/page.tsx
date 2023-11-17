@@ -15,14 +15,15 @@ import { Input } from "@/app/components/Input";
 import { TextArea } from "@/app/components/Textarea";
 import { TitlePage } from "@/app/components/TitlePage";
 import { InputSelect } from "@/app/components/InputSelect";
+import { Modal } from "./components/Modal";
+import { Loading } from "@/app/components/Loading";
 
 import { toast } from 'react-toastify';
 
 import { doc, setDoc, collection, arrayUnion, getDocs } from "firebase/firestore";
 import { db, storage } from "@/app/services/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Modal } from "./components/Modal";
-import { Loading } from "@/app/components/Loading";
+
 
 const createNewProductFormSchema = z.object({
   name: z.string().nonempty("Nome do produto obrigatório"),

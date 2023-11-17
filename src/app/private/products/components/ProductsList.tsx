@@ -41,7 +41,7 @@ export function ProductsList({ list }: ProductListProps) {
         <tbody className="w-full">
           {list.map((item: ProductData) => {
             return (
-              <ItemList data={item} />
+              <ItemList key={item.id} data={item} />
             )
           })}
         </tbody>

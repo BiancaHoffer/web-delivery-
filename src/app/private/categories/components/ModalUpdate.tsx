@@ -1,30 +1,54 @@
-import { Dispatch, Fragment, SetStateAction, useEffect } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import { Button } from "@/app/components/Button";
+import { Input } from "@/app/components/Input";
 
 import { Dialog, Transition } from "@headlessui/react";
-
-import { db } from "@/app/services/firebase";
-import { deleteDoc, doc } from "firebase/firestore";
 
 import { toast } from 'react-toastify';
 
 interface ModalDeleteProps {
-  name: string;
+  category: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
-  async function handleDelete(id: string) {
+const updateCategoryFormSchema = z.object({
+  categoryName: z.string().nonempty("Nome da categoria obrigatório"),
+})
+
+export type UpdateCategoryFormData = z.infer<typeof updateCategoryFormSchema>
+
+export function ModalUpdate({ isOpen, setIsOpen, category }: ModalDeleteProps) {
+  const {
+    register,
+    handleSubmit,
+    formState,
+    reset,
+  } = useForm<UpdateCategoryFormData>({
+    resolver: zodResolver(updateCategoryFormSchema),
+    defaultValues: {
+      //@ts-ignore
+      categoryName: category,
+    }
+  });
+
+  const { errors } = formState;
+
+  async function handleUpdateCategory(data: UpdateCategoryFormData) {
     try {
-      await deleteDoc(doc(db, "category", id));
+      console.log(data)
     } catch {
       toast.error("Houve um erro ao editar categoria. Entre em contato com o administrador.");
     } finally {
+      reset();
       window.location.reload();
     }
-  };
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -40,7 +64,6 @@ export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
         >
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
-
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
@@ -57,28 +80,29 @@ export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 mb-4"
                 >
-                  Excluir produto: {name}
+                  Editar produto: {category}
                 </Dialog.Title>
-                <div>
-                  <p className="text-base text-gray-500 mb-8">
-                    Tem certeza de que deseja excluir a categoria? <br />
-                    *Os produtos dessa categoria não serão excluidos.
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    variantBg="red"
-                    children="Excluir"
-                    onClick={() => handleDelete(name)}
+                <form onSubmit={handleSubmit(handleUpdateCategory)}>
+                  <Input
+                    errors={errors}
+                    name="categoryName"
+                    register={register}
+                    placeholder="Categoria"
                   />
-                  <Button
-                    type="button"
-                    variantBg="gray"
-                    children="Cancelar"
-                    onClick={() => setIsOpen(false)}
-                  />
-                </div>
+                  <div className="flex gap-4 mt-6">
+                    <Button
+                      type="submit"
+                      variantBg="orange"
+                      children="Salvar"
+                    />
+                    <Button
+                      variantBg="gray"
+                      children="Cancelar"
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                    />
+                  </div>
+                </form>
               </Dialog.Panel>
             </Transition.Child>
           </div>

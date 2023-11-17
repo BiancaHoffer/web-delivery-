@@ -7,7 +7,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { db } from "@/app/services/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 
-
 interface ModalDeleteProps {
   id: string;
   name: string;
@@ -59,27 +58,25 @@ export function ModalDelete({ isOpen, setIsOpen, id, name }: ModalDeleteProps) {
                 >
                   Excluir produto: {name}
                 </Dialog.Title>
-                <form action="">
-                  <div>
-                    <p className="text-base text-gray-500 mb-8">
-                      Tem certeza de que deseja excluir o produto?
-                    </p>
-                  </div>
-                  <div className="flex gap-4">
-                    <Button
-                      type="submit"
-                      variantBg="red"
-                      children="Excluir"
-                      onClick={() => handleDelete(id)}
-                    />
-                    <Button
-                      variantBg="gray"
-                      children="Cancelar"
-                      type="button"
-                      onClick={() => setIsOpen(false)}
-                    />
-                  </div>
-                </form>
+                <div>
+                  <p className="text-base text-gray-500 mb-8">
+                    Tem certeza de que deseja excluir o produto?
+                  </p>
+                </div>
+                <div className="flex gap-4">
+                  <Button
+                    type="button"
+                    variantBg="red"
+                    children="Excluir"
+                    onClick={() => handleDelete(id)}
+                  />
+                  <Button
+                    variantBg="gray"
+                    children="Cancelar"
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                  />
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

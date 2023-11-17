@@ -5,7 +5,6 @@ interface CategoriesListProps {
 }
 
 export function CategoriesList({ list }: CategoriesListProps) {
-
   return (
     <div className="rounded-md border-2 border-b-0 border-zinc-100 overflow-auto">
       <table className="w-full  rounded-2xl ">

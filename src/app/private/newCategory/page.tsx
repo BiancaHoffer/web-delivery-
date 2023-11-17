@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { IoAdd } from "react-icons/io5";
 
@@ -12,22 +12,21 @@ import { Section } from "@/app/components/Section";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { TitlePage } from "@/app/components/TitlePage";
+import { Loading } from "@/app/components/Loading";
 
 import { toast } from 'react-toastify';
 
-import { doc, setDoc, collection, onSnapshot } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/app/services/firebase";
-import { Loading } from "@/app/components/Loading";
 
-const createNewProductFormSchema = z.object({
-  name: z.string().nonempty("Nome da categoria obrigatório"),
+const createNewCategoryFormSchema = z.object({
+  category: z.string().nonempty("Nome da categoria obrigatório"),
 })
 
-export type CreateNewProductFormData = z.infer<typeof createNewProductFormSchema>
+export type CreateNewCategoryFormData = z.infer<typeof createNewCategoryFormSchema>
 
 export default function NewCategory() {
   const [openModal, setOpenModal] = useState(false);
-  const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -35,61 +34,23 @@ export default function NewCategory() {
     handleSubmit,
     formState,
     reset,
-  } = useForm<CreateNewProductFormData>({
-    resolver: zodResolver(createNewProductFormSchema),
+  } = useForm<CreateNewCategoryFormData>({
+    resolver: zodResolver(createNewCategoryFormSchema),
     defaultValues: {
-      name: "",
+      category: "",
     }
   });
 
-  const refCategory = collection(db, "category");
-
-  useEffect(() => {
-    async function getCategory() {
-      const listCategories = [] as any;
-
-      onSnapshot(refCategory, snapshot => {
-        snapshot.docs.forEach(doc => {
-          const categories = doc.id;
-          listCategories.push(categories);
-        });
-      });
-      setCategories(listCategories);
-    }
-    getCategory();
-  }, []);
-
   const { errors } = formState;
 
-  async function handleAddCategory(data: CreateNewProductFormData) {
+  async function handleAddCategory(data: CreateNewCategoryFormData) {
     try {
       setIsLoading(true);
-      /*const categoryExists = categories.findIndex(name => name === data.name);
-
-      if (categoryExists) {
-        toast.warn("Já existe uma categoria com este nome.", {
-          position: "top-right",
-          autoClose: 9000,
-          theme: "colored",
-        });
-        return;
-      }*/
-
-      const categoryName = data.name.toLowerCase()
+      const categoryName = data.category.toLowerCase();
       await setDoc(doc(db, "category", categoryName), {});
-
-      toast.success("Categoria criada com sucesso!", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.success("Categoria criada com sucesso!");
     } catch (error) {
-      toast.error("Erro ao cadastrar categoria. Entre em contato com o administrador.", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
-      console.log(error)
+      toast.error("Houve um erro ao criar categoria. Entre em contato com o administrador.");
     } finally {
       reset();
       setIsLoading(false);
@@ -103,13 +64,11 @@ export default function NewCategory() {
         children={<IoAdd />}
         subtitle="Adicione novas categorias para seus produtos!"
       />
-      <form
-        onSubmit={handleSubmit(handleAddCategory)}
-      >
+      <form onSubmit={handleSubmit(handleAddCategory)}>
         <Section>
           <div className="w-full sm:w-full">
             <Input
-              name="name"
+              name="category"
               errors={errors}
               register={register}
               placeholder="Nome da categoria"

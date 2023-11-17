@@ -51,11 +51,14 @@ export default function Categories() {
         snapshot.docs.forEach(doc => {
           const categories = doc.id;
           listCategories.push(categories);
+          setCategories(listCategories);
         });
-        setCategories(listCategories);
+
       });
     }
     getCategories();
+
+
   }, []);
 
   useEffect(() => {

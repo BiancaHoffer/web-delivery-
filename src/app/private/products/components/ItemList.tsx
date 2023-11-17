@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { ModalDelete } from "./ModalDelete";
 import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
 import Image from "next/image";
