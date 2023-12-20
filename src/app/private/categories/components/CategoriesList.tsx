@@ -1,8 +1,14 @@
 import { ItemList } from "./ItemList";
 
-interface CategoriesListProps {
-  list: string[];
+interface CategoryData {
+  id: string;
+  category: string;
 }
+
+interface CategoriesListProps {
+  list: CategoryData[];
+}
+
 
 export function CategoriesList({ list }: CategoriesListProps) {
   return (
@@ -24,9 +30,9 @@ export function CategoriesList({ list }: CategoriesListProps) {
           </tbody>
         }
         <tbody className="w-full">
-          {list.map((item: any, index: any) => {
+          {list.map((item: CategoryData, index: any) => {
             return (
-              <ItemList key={index} item={item} />
+              <ItemList key={item.id} item={item} />
             )
           })}
         </tbody>

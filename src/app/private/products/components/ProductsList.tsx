@@ -1,5 +1,3 @@
-import { IoCreateOutline, IoTrashOutline } from "react-icons/io5"
-
 import { DocumentData } from "firebase/firestore";
 import { ItemList } from "./ItemList";
 

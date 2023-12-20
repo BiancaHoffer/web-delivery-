@@ -1,10 +1,14 @@
+import { maskCurrency } from "@/functions/Masks";
 import { ComponentProps } from "react";
 
 import {
   DeepMap,
   FieldErrors,
   UseFormRegister,
-  FieldValues
+  FieldValues,
+  ControllerProps,
+  Control,
+  Controller
 } from "react-hook-form";
 
 interface InputProps extends ComponentProps<'input'> {

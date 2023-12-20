@@ -17,7 +17,7 @@ import { Loading } from "@/app/components/Loading";
 import { toast } from 'react-toastify';
 
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/app/services/firebase";
+import { db } from "@/services/firebase";
 
 const createNewCategoryFormSchema = z.object({
   category: z.string().nonempty("Nome da categoria obrigatório"),
@@ -43,11 +43,19 @@ export default function NewCategory() {
 
   const { errors } = formState;
 
+  const UIDCategoryGenerate = Math.floor(Date.now() * Math.random()).toString(32);
+
   async function handleAddCategory(data: CreateNewCategoryFormData) {
     try {
       setIsLoading(true);
-      const categoryName = data.category.toLowerCase();
-      await setDoc(doc(db, "category", categoryName), {});
+
+      const dataCategory = {
+        id: UIDCategoryGenerate,
+        category: data.category.toLowerCase()
+      };
+
+      await setDoc(doc(db, "category", UIDCategoryGenerate), dataCategory);
+
       toast.success("Categoria criada com sucesso!");
     } catch (error) {
       toast.error("Houve um erro ao criar categoria. Entre em contato com o administrador.");
@@ -81,12 +89,6 @@ export default function NewCategory() {
             children={isLoading ? <Loading /> : "Salvar"}
             disabled={isLoading}
             variantBg="orange"
-          />
-          <Button
-            type="button"
-            children="Cancelar"
-            variantBg="gray"
-            onClick={() => setOpenModal(true)}
           />
         </div>
       </form>

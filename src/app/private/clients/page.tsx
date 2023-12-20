@@ -17,7 +17,7 @@ import { z } from "zod";
 
 
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "@/app/services/firebase";
+import { db } from "@/services/firebase";
 
 const listProducts = [
   {

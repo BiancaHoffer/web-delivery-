@@ -1,23 +1,22 @@
-import type { Metadata } from 'next';
-import "./styles/global.css";
+"use client"
 
+import "../styles/global.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-export const metadata: Metadata = {
-  title: 'Web Delivery',
-  description: 'Sistema Delivery',
-}
+import { AuthProvider } from '../hooks/useAuth';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="pt-br">
       <body suppressHydrationWarning={true}>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <ToastContainer />
       </body>
     </html>

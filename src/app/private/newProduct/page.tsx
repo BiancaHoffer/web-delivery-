@@ -20,22 +20,22 @@ import { Loading } from "@/app/components/Loading";
 
 import { toast } from 'react-toastify';
 
-import { doc, setDoc, collection, arrayUnion, getDocs } from "firebase/firestore";
-import { db, storage } from "@/app/services/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { maskCurrency } from "@/functions/Masks";
 
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { db, storage } from "@/services/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const createNewProductFormSchema = z.object({
   name: z.string().nonempty("Nome do produto obrigatório"),
-  price: z.string().nonempty("Preço obrigatório"),
   description: z.string(),
+  price: z.string().nonempty("Preço do produto obrigatório")
 })
 
 export type CreateNewProductFormData = z.infer<typeof createNewProductFormSchema>
 
-interface DataForm extends CreateNewProductFormData {
+export interface CategoryData {
   id: string;
-  image: string;
   category: string;
 }
 
@@ -46,24 +46,29 @@ export interface ImageFile extends File {
 export default function NewProducts() {
   const [openModal, setOpenModal] = useState(false);
   const [image, setImage] = useState<ImageFile | null>(null);
+  const [currency, setCurrency] = useState("");
 
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<CategoryData[]>([]);
   const [categorySelected, setCategorySelected] = useState("Selecionar categoria");
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const arrayStringCategories = categories.map(category => {
+    return category.category;
+  })
+
   useEffect(() => {
     async function getDocsCategory() {
-      let listCatories = [] as string[];
+      let listCatories = [] as any[];
 
       await getDocs(collection(db, "category"))
         .then((docs) => {
           docs.forEach((doc) => {
-            listCatories.push(doc.id);
+            listCatories.push(doc.data() as CategoryData);
           });
           setCategories(listCatories);
         });
-    }
+    };
     getDocsCategory();
   }, []);
 
@@ -72,12 +77,13 @@ export default function NewProducts() {
     handleSubmit,
     formState,
     reset,
+    control
   } = useForm<CreateNewProductFormData>({
     resolver: zodResolver(createNewProductFormSchema),
     defaultValues: {
       name: "",
-      price: "",
       description: "",
+      price: "",
     }
   });
 
@@ -87,29 +93,22 @@ export default function NewProducts() {
 
   async function handleCreateProduct(data: CreateNewProductFormData) {
     if (categorySelected == "Selecionar categoria") {
-      toast.warning("Por favor, selecione a categoria do produto.", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.warning("Por favor, selecione a categoria do produto.");
       return;
     };
 
+    if (currency == "0.00") {
+      toast.warning("O preço do produto precisa ser acima de R$ 0.01 centavos.");
+      return;
+    }
+
     if (image == null) {
-      toast.warning("Por favor, insira uma imagem do produto.", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.warning("Por favor, insira uma imagem do produto.");
       return;
     };
 
     if (image.size > 5 * 1024 * 1024) {
-      toast.warning("O arquivo precisa ter no máximo 5MB", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.warning("O arquivo precisa ter no máximo 5MB");
       return;
     }
 
@@ -124,28 +123,19 @@ export default function NewProducts() {
               const product = {
                 id: UIDProductGenerate,
                 name: data.name,
-                price: data.price,
+                price: currency,
                 description: data.description,
                 category: categorySelected,
                 image: url,
-              } as DataForm;
+              };
 
               setDoc(doc(db, "product", UIDProductGenerate), product);
-              addProductInCategory(product);
             });
         });
 
-      toast.success("Produto criado com sucesso!", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.success("Produto criado com sucesso!");
     } catch {
-      toast.error("Erro ao cadastrar produto. Entre em contato com o administrador.", {
-        position: "top-right",
-        autoClose: 9000,
-        theme: "colored",
-      });
+      toast.error("Erro ao cadastrar produto. Entre em contato com o administrador.");
     } finally {
       reset();
       setImage(null);
@@ -154,7 +144,7 @@ export default function NewProducts() {
     }
   }
 
-  async function addProductInCategory(data: DataForm) {
+  /*async function addProductInCategory(data: DataForm) {
     try {
       await setDoc(doc(db, `/category/${categorySelected}`), {
         products: arrayUnion(
@@ -170,7 +160,7 @@ export default function NewProducts() {
         theme: "colored",
       });
     };
-  };
+  };*/
 
   return (
     <main>
@@ -195,7 +185,7 @@ export default function NewProducts() {
             <InputSelect
               setSelected={setCategorySelected}
               selected={categorySelected}
-              list={categories}
+              list={arrayStringCategories}
             />
           </div>
         </Section>
@@ -216,8 +206,8 @@ export default function NewProducts() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          setImage(file)
-                        }
+                          setImage(file);
+                        };
                       }}
                     />
                   </div>
@@ -230,6 +220,8 @@ export default function NewProducts() {
                   register={register}
                   placeholder="Preço"
                   prefix="R$"
+                  value={currency}
+                  onChange={e => setCurrency(maskCurrency(e.target.value))}
                 />
               </div>
             </div>
@@ -250,6 +242,7 @@ export default function NewProducts() {
             children={isLoading ? <Loading /> : "Salvar"}
             disabled={isLoading}
             variantBg="orange"
+            value={currency}
           />
           <Button
             type="button"
@@ -264,6 +257,7 @@ export default function NewProducts() {
         setIsOpen={setOpenModal}
         setImage={setImage}
         setList={setCategorySelected}
+        setCurrency={setCurrency}
         reset={reset}
       />
     </main>

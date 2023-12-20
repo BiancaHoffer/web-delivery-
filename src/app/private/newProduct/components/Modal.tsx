@@ -9,10 +9,11 @@ interface ModalDeleteOrderProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setImage: Dispatch<SetStateAction<ImageFile | null>>;
   setList: Dispatch<SetStateAction<string>>;
+  setCurrency: Dispatch<SetStateAction<string>>;
   reset: UseFormReset<{
     name: string;
-    price: string;
     description: string;
+    price: string;
   }>
 }
 
@@ -22,12 +23,14 @@ export function Modal({
   reset,
   setImage,
   setList,
+  setCurrency
 }: ModalDeleteOrderProps) {
   function handleExclude() {
     setIsOpen(false);
     reset();
     setImage(null);
-    setList("Selecionar categoria")
+    setList("Selecionar categoria");
+    setCurrency("")
   }
   return (
     <>

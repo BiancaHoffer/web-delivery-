@@ -6,7 +6,7 @@ interface TitlePageProps {
 
 export function TitlePage({ children, subtitle, title }: TitlePageProps) {
   return (
-    <div className="flex mb-12 items-start gap-6 flex-col">
+    <div className="flex items-start gap-6 flex-col">
       <div className="flex gap-2">
         <div className="pt-1 text-primary text-3xl">
           {children}

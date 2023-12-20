@@ -4,18 +4,19 @@ import { Button } from "@/app/components/Button";
 
 import { Dialog, Transition } from "@headlessui/react";
 
-import { db } from "@/app/services/firebase";
+import { db } from "@/services/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 
 import { toast } from 'react-toastify';
 
 interface ModalDeleteProps {
-  name: string;
+  id: string;
+  category: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
+export function ModalDelete({ isOpen, setIsOpen, category, id }: ModalDeleteProps) {
   async function handleDelete(id: string) {
     try {
       await deleteDoc(doc(db, "category", id));
@@ -57,7 +58,7 @@ export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 mb-4"
                 >
-                  Excluir produto: {name}
+                  Excluir produto: {category !== undefined && category[0].toUpperCase() + category.substring(1)}
                 </Dialog.Title>
                 <div>
                   <p className="text-base text-gray-500 mb-8">
@@ -70,7 +71,7 @@ export function ModalDelete({ isOpen, setIsOpen, name }: ModalDeleteProps) {
                     type="button"
                     variantBg="red"
                     children="Excluir"
-                    onClick={() => handleDelete(name)}
+                    onClick={() => handleDelete(id)}
                   />
                   <Button
                     type="button"

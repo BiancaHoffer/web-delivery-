@@ -57,7 +57,7 @@ export function Input({
       </div>
       <div className={`${activeErrors === true ? "flex" : "hidden"}`}>
         {errors[name]?.message &&
-          <span className="text-error font-medium text-sm pl-1">
+          <span className="text-error font-light text-sm pl-1">
             {errors[name]?.message}
           </span>}
       </div>

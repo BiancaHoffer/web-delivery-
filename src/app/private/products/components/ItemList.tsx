@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { ModalDelete } from "./ModalDelete";
-import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+
 import Image from "next/image";
+import { ModalDelete } from "./ModalDelete";
+
+import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+
 import { DocumentData } from "firebase/firestore";
 
 export interface ProductData extends DocumentData {
@@ -28,7 +31,7 @@ export function ItemList({ data }: ItemListProps) {
           {data.name}
         </td>
         <td className="p-5">{data.price}</td>
-        <td className="p-5">{data.category[0].toUpperCase() + data.category.substring(1)}</td>
+        <td className="p-5">{data !== undefined && data.category[0].toUpperCase() + data.category.substring(1)}</td>
         <td className="p-5">{data.description === "" ? "-" : data.description}</td>
         <td className="relative top-[-30px] flex p-5 gap-4 text-orange-400 cursor-pointer text-2xl">
           <button className="transition-all hover:text-secondary">

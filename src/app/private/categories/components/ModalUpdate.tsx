@@ -12,6 +12,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { toast } from 'react-toastify';
 
 interface ModalDeleteProps {
+  id: string;
   category: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -32,7 +33,6 @@ export function ModalUpdate({ isOpen, setIsOpen, category }: ModalDeleteProps) {
   } = useForm<UpdateCategoryFormData>({
     resolver: zodResolver(updateCategoryFormSchema),
     defaultValues: {
-      //@ts-ignore
       categoryName: category,
     }
   });
@@ -80,7 +80,7 @@ export function ModalUpdate({ isOpen, setIsOpen, category }: ModalDeleteProps) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 mb-4"
                 >
-                  Editar produto: {category}
+                  Editar produto: {category !== undefined && category[0].toUpperCase() + category.substring(1)}
                 </Dialog.Title>
                 <form onSubmit={handleSubmit(handleUpdateCategory)}>
                   <Input

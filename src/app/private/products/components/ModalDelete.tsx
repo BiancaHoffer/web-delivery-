@@ -4,7 +4,7 @@ import { Button } from "@/app/components/Button";
 
 import { Dialog, Transition } from "@headlessui/react";
 
-import { db } from "@/app/services/firebase";
+import { db } from "@/services/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 
 interface ModalDeleteProps {

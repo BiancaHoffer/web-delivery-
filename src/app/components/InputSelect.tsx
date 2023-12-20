@@ -1,10 +1,15 @@
-import { useState } from "react"
+import { useState } from "react";
 
 import {
   IoIosArrowDown,
   IoIosArrowUp,
   IoMdCheckmark
 } from 'react-icons/io';
+
+export interface CategoryData {
+  id: string;
+  category: string;
+}
 
 interface SelectProps {
   list: string[];
@@ -21,7 +26,7 @@ export function InputSelect({
 
   function handleSelect() {
     setIsSelected(false);
-  }
+  };
 
   return (
     <div className="w-[100%] mb-[-5px]">
@@ -34,21 +39,16 @@ export function InputSelect({
         <div className="w-[100%] text-zinc-900">
           {selected[0].toUpperCase() + selected.substring(1)}
         </div>
-
         <div className="text-zinc-400">
           {isSelected ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </div>
       </div>
       <div className={`relative w-[100%]  transition-all duration-300
-      ${isSelected ? "flex opacity-100" : "opacity-0 z-[-9]"}
-      `}>
-        <div className="absolute w-[100%] overflow-auto max-h-[200px] rounded-lg border-[1px] bg-white flex-col shadow-lg"
-        >
+      ${isSelected ? "flex opacity-100" : "opacity-0 z-[-9]"}`}>
+        <div className="absolute w-[100%] overflow-auto max-h-[200px] rounded-lg border-[1px] bg-white flex-col shadow-lg">
           {list.map((i, index) => {
             return (
-              <div key={index} className="relative flex items-center justify-between w-[100%] px-4 py-2 border-b-[0.2px] hover:text-primary hover:font-medium
-            
-              ">
+              <div key={index} className="relative flex items-center justify-between w-[100%] px-4 py-2 border-b-[0.2px] hover:text-primary hover:font-medium">
                 <input
                   type="radio"
                   name="item"
@@ -57,7 +57,7 @@ export function InputSelect({
                   onChange={(e) => setSelected(e.target.value)}
                   onClick={() => handleSelect()}
                 />
-                {i[0].toUpperCase() + i.substring(1)}
+                {i !== undefined && i[0].toUpperCase() + i.substring(1)}
                 <div className="text-primary">
                   {selected === i && <IoMdCheckmark />}
                 </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { IoSearchOutline } from "react-icons/io5";
+import { IoAdd, IoSearchOutline } from "react-icons/io5";
 
 import { useEffect, useState } from "react";
 
@@ -19,7 +19,10 @@ import {
   collection,
   onSnapshot,
 } from "firebase/firestore";
-import { db } from "@/app/services/firebase";
+import { db } from "@/services/firebase";
+import { SkeletonList } from "@/skeletons/SkeletonList";
+import { SkeletonTable } from "@/skeletons/SkeletonTable";
+import Link from "next/link";
 
 export interface ProductData extends DocumentData {
   id: string;
@@ -30,6 +33,11 @@ export interface ProductData extends DocumentData {
   category: string;
 }
 
+interface CategoryData {
+  id: string;
+  category: string;
+}
+
 export default function Categories() {
   const {
     register,
@@ -37,43 +45,41 @@ export default function Categories() {
   } = useForm();
   const { errors } = formState;
 
-  const [filtered, setFiltered] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [nameCategory, setNameCategory] = useState("");
+
+  const [categories, setCategories] = useState<CategoryData[]>([]);
+  const [filtered, setFiltered] = useState<CategoryData[]>([]);
+
+  const [loading, setLoading] = useState(true);
 
   const refCategory = collection(db, "category");
 
   useEffect(() => {
-    async function getCategories() {
-      const listCategories = [] as any;
-
-      onSnapshot(refCategory, snapshot => {
-        snapshot.docs.forEach(doc => {
-          const categories = doc.id;
-          listCategories.push(categories);
-          setCategories(listCategories);
-        });
-
-      });
-    }
-    getCategories();
-
-
+    fetchCategories();
   }, []);
 
   useEffect(() => {
-    function search() {
-      handleSearch();
-    };
-
-    search();
+    handleFilter();
   }, [nameCategory]);
 
-  function handleSearch() {
+  async function fetchCategories() {
+    const listCategories = [] as any;
+
+    onSnapshot(refCategory, snapshot => {
+      snapshot.docs.forEach(doc => {
+        const categories = doc.data();
+        listCategories.push(categories);
+      });
+      setCategories(listCategories);
+      setLoading(false);
+    });
+  };
+
+  function handleFilter() {
     if (nameCategory !== "") {
-      const filter = categories.filter(name => name.toLowerCase().includes(nameCategory.toLowerCase()));
+      const filter = categories.filter((name) => name.category.toLowerCase().includes(nameCategory.toLowerCase()));
       setFiltered(filter);
-    }
+    };
   };
 
   function handleCleanFilter() {
@@ -83,13 +89,25 @@ export default function Categories() {
 
   return (
     <main>
-      <TitlePage
-        title="Categorias"
-        children={<TbCategory2 />}
-      />
+      <div className="flex w-full justify-between items-center">
+        <TitlePage
+          title="Categorias"
+          children={<TbCategory2 />}
+        />
+        <Link href="/private/newCategory">
+          <Button
+            children={
+              <div className="flex gap-2 items-center text-base">
+                <IoAdd />
+                Nova categoria
+              </div>}
+            variantBg="orange"
+          />
+        </Link>
+      </div>
       <Section>
         <form
-          onSubmit={handleSearch}
+          onSubmit={handleFilter}
           className="flex gap-4 w-full items-end"
         >
           <fieldset className="w-[100%] flex flex-col">
@@ -115,7 +133,13 @@ export default function Categories() {
           />
         </form>
       </Section>
-      <CategoriesList list={nameCategory.length > 0 ? filtered : categories} />
+      {loading
+        ? <SkeletonTable />
+        : <CategoriesList list={nameCategory.length > 0
+          ? filtered
+          : categories}
+        />
+      }
     </main>
   )
 }
